@@ -27,7 +27,7 @@ export interface ColumnProps<T> {
   width?: string | number;
   className?: string;
   fixed?: boolean | ('left' | 'right');
-  filterIcon?: React.ReactNode;
+  filterIcon?: React.ReactNode | ((filtered: boolean) => React.ReactNode);
   filteredValue?: any[];
   sortOrder?: 'ascend' | 'descend';
   children?: ColumnProps<T>[];
@@ -37,16 +37,16 @@ export interface ColumnProps<T> {
 }
 
 export interface TableComponents {
-  table?: any;
+  table?: React.ReactType;
   header?: {
-    wrapper?: any;
-    row?: any;
-    cell?: any;
+    wrapper?: React.ReactType;
+    row?: React.ReactType;
+    cell?: React.ReactType;
   };
   body?: {
-    wrapper?: any;
-    row?: any;
-    cell?: any;
+    wrapper?: React.ReactType;
+    row?: React.ReactType;
+    cell?: React.ReactType;
   };
 }
 

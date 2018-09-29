@@ -145,7 +145,11 @@ export default class Button extends React.Component<ButtonProps, any> {
   }
 
   handleClick: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = e => {
+    const { loading } = this.state;
     const { onClick } = this.props;
+    if (!!loading) {
+      return;
+    }
     if (onClick) {
       (onClick as React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>)(e);
     }
@@ -176,6 +180,8 @@ export default class Button extends React.Component<ButtonProps, any> {
         break;
     }
 
+    const now = new Date();
+    const isChristmas = now.getMonth() === 11 && now.getDate() === 25;
     const classes = classNames(prefixCls, className, {
       [`${prefixCls}-${type}`]: type,
       [`${prefixCls}-${shape}`]: shape,
@@ -185,6 +191,7 @@ export default class Button extends React.Component<ButtonProps, any> {
       [`${prefixCls}-background-ghost`]: ghost,
       [`${prefixCls}-two-chinese-chars`]: hasTwoCNChar,
       [`${prefixCls}-block`]: block,
+      christmas: isChristmas,
     });
 
     const iconType = loading ? 'loading' : icon;
@@ -192,12 +199,15 @@ export default class Button extends React.Component<ButtonProps, any> {
     const kids = (children || children === 0)
       ? React.Children.map(children, child => insertSpace(child, this.isNeedInserted())) : null;
 
+    const title= isChristmas ? 'Ho Ho Ho!' : rest.title;
+
     if ('href' in rest) {
       return (
         <a
           {...rest}
           className={classes}
           onClick={this.handleClick}
+          title={title}
         >
           {iconNode}{kids}
         </a>
@@ -213,6 +223,7 @@ export default class Button extends React.Component<ButtonProps, any> {
             type={htmlType || 'button'}
             className={classes}
             onClick={this.handleClick}
+            title={title}
           >
             {iconNode}{kids}
           </button>

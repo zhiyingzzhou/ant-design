@@ -4,7 +4,7 @@ import { AbstractSelectProps } from '../select';
 export type TreeNode = TreeNodeNormal | TreeNodeSimpleMode;
 
 export interface TreeNodeNormal {
-  value: string;
+  value: string | number;
   /**
    * @deprecated Please use `title` instead.
    */
@@ -30,12 +30,12 @@ export interface TreeDataSimpleMode {
 }
 
 export interface TreeSelectProps extends AbstractSelectProps {
-  value?: string | Array<any>;
-  defaultValue?: string | Array<any>;
+  value?: string | number | Array<any>;
+  defaultValue?: string | number | Array<any>;
   multiple?: boolean;
   maxTagCount?: number;
   onSelect?: (value: any) => void;
-  onChange?: (value: any, label: any) => void;
+  onChange?: (value: any, label: any, extra: any) => void;
   onSearch?: (value: any) => void;
   searchPlaceholder?: string;
   dropdownStyle?: React.CSSProperties;

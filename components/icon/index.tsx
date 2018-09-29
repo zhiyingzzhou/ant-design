@@ -99,7 +99,11 @@ const Icon: React.SFC<IconProps> = (props) => {
 
   if (children) {
     warning(
-      Boolean(viewBox) || React.Children.count(children) === 1 && React.Children.only(children).type === 'use',
+      Boolean(viewBox) || (
+        React.Children.count(children) === 1 &&
+        React.isValidElement(children) &&
+        React.Children.only(children).type === 'use'
+      ),
       'Make sure that you provide correct `viewBox`' +
       ' prop (default `0 0 1024 1024`) to the icon.',
     );
@@ -117,10 +121,10 @@ const Icon: React.SFC<IconProps> = (props) => {
   if (typeof type === 'string') {
     let computedType = type;
     if (theme) {
-      const alreadyHaveTheme = getThemeFromTypeName(type);
-      warning(!alreadyHaveTheme,
-        `This icon already has a theme '${alreadyHaveTheme}'.` +
-        ` The prop 'theme' ${theme} will be ignored.`);
+      const themeInName = getThemeFromTypeName(type);
+      warning(!themeInName || theme === themeInName,
+        `The icon name '${type}' already specify a theme '${themeInName}',` +
+        ` the 'theme' prop '${theme}' will be ignored.`);
     }
     computedType = withThemeSuffix(
       removeTypeTheme(type),

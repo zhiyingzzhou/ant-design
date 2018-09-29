@@ -96,6 +96,35 @@ describe('Icon', () => {
     expect(wrapper.instance().tooltip.props.visible).toBe(false);
   });
 
+  it('should support custom usage of children', () => {
+    expect(() => {
+      render(<Icon type="custom">&E648</Icon>);
+    }).not.toThrow();
+  });
+
+  describe('warning on conflicting theme', () => {
+    let errorSpy;
+    beforeEach(() => {
+      errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      errorSpy.mockRestore();
+    });
+
+    it('does not warn', () => {
+      mount(<Icon type="clock-circle-o" theme="outlined" />);
+      expect(errorSpy).not.toBeCalled();
+    });
+
+    it('warns', () => {
+      mount(<Icon type="clock-circle-o" theme="filled" />);
+      expect(errorSpy).toBeCalledWith(
+        "Warning: The icon name 'clock-circle-o' already specify a theme 'outlined', the 'theme' prop 'filled' will be ignored."
+      );
+    });
+  });
+
   describe('`component` prop', () => {
     it('can access to svg defs if has children', () => {
       const wrapper = render(

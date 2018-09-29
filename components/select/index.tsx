@@ -30,6 +30,7 @@ export interface AbstractSelectProps {
   getPopupContainer?: (triggerNode: Element) => HTMLElement;
   filterOption?: boolean | ((inputValue: string, option: React.ReactElement<OptionProps>) => any);
   id?: string;
+  defaultOpen?: boolean;
   open?: boolean;
   onDropdownVisibleChange?: (open: boolean) => void;
 }
@@ -182,6 +183,10 @@ export default class Select extends React.Component<SelectProps, {}> {
       <Icon type="close" className={`${prefixCls}-remove-icon`} />
     );
 
+    const clearIcon = (
+      <Icon type="close-circle" theme="filled" className={`${prefixCls}-clear-icon`} />
+    );
+
     const menuItemSelectedIcon = (
       <Icon type="check" className={`${prefixCls}-selected-icon`} />
     );
@@ -190,6 +195,7 @@ export default class Select extends React.Component<SelectProps, {}> {
       <RcSelect
         inputIcon={inputIcon}
         removeIcon={removeIcon}
+        clearIcon={clearIcon}
         menuItemSelectedIcon={menuItemSelectedIcon}
         {...restProps}
         {...modeConfig}
